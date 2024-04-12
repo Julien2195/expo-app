@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
   Text,
   SafeAreaView,
@@ -6,17 +7,16 @@ import {
   View,
   Image,
 } from "react-native";
-import React, { useState, useEffect } from "react";
-
 import { Card } from "react-native-paper";
 
 export default function App() {
   const [pokemonData, setPokemonData] = useState(null);
+  const [numColumns, setNumColumns] = useState(2);
 
   useEffect(() => {
     const fetchData = () => {
-      fetch("https://pokeapi.co/api/v2/pokemon?limit=100")
-        .then((apiAllPokemon) => apiAllPokemon.json())
+      fetch("https://pokeapi.co/api/v2/pokemon?limit=50")
+        .then((response) => response.json())
         .then((data) => {
           Promise.all(
             data.results.map((pokemon) =>
@@ -45,6 +45,7 @@ export default function App() {
           <FlatList
             data={pokemonData}
             keyExtractor={(item) => item.name}
+            numColumns={numColumns}
             renderItem={({ item }) => (
               <View style={styles.item}>
                 <Text style={styles.paragraph}>{item.name}</Text>
